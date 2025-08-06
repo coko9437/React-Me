@@ -1,0 +1,164 @@
+250806
+
+# Node.js 설치
+: https://nodejs.org/ko/download
+-> v22.18.0 (LTS)로 설치
+터미널로 버전확인. : node -v
+
+
+# 그후 터미널로 yarn 설치
+: npm install --global yarn
+
+
+# 젯브레인 툴박스 들어가서 WebStrom 검색후 설치
+
+
+# VS코드.. 에서 확장팩(마켓프레이스) -> 설치할 목록 (새폴더 : REACT-WORKSPACE-250806)
+
+ESLint (자바스크립트 문법 검사 도구)
+
+Prettier - Code formatter (코드 스타일 자동 정리)
+
+Reactjs Code Snippets (리액트 코드 자동 생성)
+
+Material Icon Theme (테마)
+
+Auto Close Tag (자동으로 태그 닫아주는거)
+
+
+# VS코드 터미널에서(cmd)
+방법 1.
+: yarn create react-app hello-react
+
+방법 2. (순차적으로)
+cd ..  : (change directory) .(점한개 : 하위폴더) ..(점두개 : 상위폴더)
+yarn create vite hello-react2 --template react
+
+ctrl + c
+cd ..
+yarn create vite hello-react2 --template react
+cd hello-react2
+yarn
+yarn dev
+----------------------------------------
+# 이전까지.. 스프링부트 
+: MPA (다중 페이지 애플리케이션)
+
+여러 개의 HTML 파일 사용
+예: login.html, join.html, list.html
+
+
+# 지금부터 리액트..
+SPA (단일 페이지 애플리케이션)
+
+하나의 HTML만 사용
+
+컴포넌트 기반 렌더링
+-> (예시 : base.html 만들고(헤더 풋터 고정) , 그뒤 html은 콘텐츠만 바꿔서 사용함.)
+가상 DOM (Virtual DOM) 사용함.
+
+가상 DOM 생성 -> 가상 DOM 리렌더링(업데이트 시 전체 UI를 가상 DOM에 다시 그림)
+	-> 비교 (Diffing)이전 가상 DOM과 현재 가상 DOM의 내용을 비교
+		-> 바뀐 부분만 실제 DOM에 적용
+
+
+# VS코드에서,
+해당 리액트 프로젝트 폴더에 들어가서 -> 파일명: .prettierrc , 생성.
+//.prettierrc
+{
+"singleQuote":true, // 작은 따옴표 사용
+"semi": true, // 문장 끝에 ; 세미콜론을 항상 붙임
+"useTabs": false, // 들여쓰기 탭 대신, 스페이스 사용.
+"tabWidth":2, // 들여쓰기, 기본 4칸, 2칸씩
+"trailingComma":"all", // 마지막 요소에 항상 콤마 붙이기.
+"printWidth" :80 // 한줄 최대 길이 80자로 제한. , 자동 줄바꿈 처리.
+}
+
+2
+저장시 자동 정렬
+기본설정 -> 설정 ->format on save 체크
+
+- 경로 인식, 자동 완성, 기능
+루트디렉토리
+jsconfig.json
+{
+"compilerOptions" : {
+"target":"es6"
+}
+}
+
+3
+파일명 : vite.config.js
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react'; // Vue 등 다른 프레임워크는 바꿔주세요
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default defineConfig({
+plugins: [react()],
+resolve: {
+alias: {
+'@': path.resolve(__dirname, 'src'), // @는 src/ 폴더로 연결
+},
+},
+});
+
+파일명 : jsconfig.json
+// jsconfig.json
+{
+"compilerOptions": {
+"baseUrl": ".",
+"paths": {
+"@/*": ["src/*"]
+}
+},
+"exclude": ["node_modules", "dist"]
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+3교시
+index.html	main.jsx		App.jsx
+index.html <- main.jsx <- App.jsx
+
+# index.html
+<body>
+    <div id="root"></div>		<- 여기서 root? = main.jsx
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+# main.jsx
+import App from './App.jsx'
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />		<- App.jsx
+  </StrictMode>,
+)
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+# App.jsx
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>...
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+# 결론 : index.html의 재료(컴포넌트)는 App.jsx
+main.jsx는 해당 재료를 어느 위치에, 정렬, 등 중간관리자 역할.
+index.html <- main.jsx <- App.jsx
