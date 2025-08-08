@@ -162,3 +162,20 @@ function App() {
 # 결론 : index.html의 재료(컴포넌트)는 App.jsx
 main.jsx는 해당 재료를 어느 위치에, 정렬, 등 중간관리자 역할.
 index.html <- main.jsx <- App.jsx
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+- App.css
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.react {
+  background: aqua;
+  color: black;
+  font-size: 48px;
+  font-weight: bold;
+  padding: 16px;
+}
