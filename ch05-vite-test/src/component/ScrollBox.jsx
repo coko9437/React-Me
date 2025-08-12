@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class ScrollBox extends Component {
   //스크롤 맨 밑으로 이동하는 이벤트 핸들러.
@@ -25,24 +25,25 @@ class ScrollBox extends Component {
   render() {
     // Outside영역
     const style = {
-      border: "1px solid black",
-      height: "300px",
-      width: "300px",
-      overflow: "auto",
-      position: "relative",
+      border: '1px solid black',
+      height: '300px',
+      width: '300px',
+      overflow: 'auto',
+      position: 'relative',
     };
 
     // Inside 영역
     const innerStyle = {
-      width: "100%",
-      height: "650px",
-      background: "linear-gradient(white,black)",
+      width: '100%',
+      height: '650px',
+      background: 'linear-gradient(white,black)',
     };
 
     return (
       <>
         <h2>스크롤을 이용한 ref로 접근하기</h2>
         <div
+          // id = "box"
           style={style}
           // ref 순서1,
           // 설정하기, 요소를 선택하기.
