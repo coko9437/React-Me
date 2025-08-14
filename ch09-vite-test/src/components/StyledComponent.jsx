@@ -48,9 +48,9 @@ const Button = styled.button`
 
 const StyledComponent = () => {
   return (
-    <Box color="yellow">
+    <Box color="blue">
       <Button>Hello</Button>
-      <Button inverted={false}>오늘 점심 뭐 먹지?</Button>
+      <Button inverted={true}>오늘 점심 뭐 먹지?</Button>
     </Box>
   );
 };

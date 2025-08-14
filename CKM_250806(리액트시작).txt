@@ -24,7 +24,7 @@ Reactjs Code Snippets (리액트 코드 자동 생성)
 Material Icon Theme (테마)
 
 Auto Close Tag (자동으로 태그 닫아주는거)
-
+-----------------------------------------------------
 
 # VS코드 터미널에서(cmd)
 방법 1.
@@ -40,7 +40,20 @@ yarn create vite hello-react2 --template react
 cd hello-react2
 yarn
 yarn dev
-----------------------------------------
+----------------------------------------------------
+## Git 설정
+
+.gitignore 파일 설정 (node_modules, build 폴더 제외)
+
+**/node_modules, **/build 추가 (경로)
+
+'yarn' 명령어로 node_modules 설치
+
+'yarn dev'로 리액트 실행
+
+주의: 원격지에 node_modules는 업로드하지 않습니다
+---------------------------------------------------
+
 # 이전까지.. 스프링부트 
 : MPA (다중 페이지 애플리케이션)
 
