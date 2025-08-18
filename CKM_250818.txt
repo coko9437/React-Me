@@ -1,0 +1,86 @@
+250818)
+
+#Sass (SCSS)
+- 설치 (터미널)
+yarn add sass
+
+#CSS Module
+:클래스명 자동 고유화: [파일명]_[클래스명]__[해시값]
+
+.module.css 또는 .module.scss 확장자 사용
+
+# styled-components
+-설치
+yarn add styled-components
+
+* 비교 *
+기준		일반 CSS	   Sass	    CSS Module	styled-components
+설정 난이도	쉬움	   쉬움	    쉬움		쉬움
+클래스명 	충돌	주의 필요	   주의 필요  자동 방지	자동 방지
+동적 스타일링	어려움	   어려움	    보통		매우 쉬움
+코드 분리		분리됨	   분리됨	    분리됨		통합
+성능		좋음	   좋음	    좋음		런타임 오버헤드
+
+==>
+-SCss를 선택해야 할 때-		-CSS Module을 선택해야 할 때-	-styled-components를 선택해야 할 때-
+중대규모 프로젝트			클래스명 충돌 방지가 중요		props 기반 동적 스타일링 많음
+재사용 가능한 스타일 필요		컴포넌트별 스타일 격리 필요		컴포넌트와 스타일 통합 관리
+변수와 믹스인 활용 필요		전통적인 CSS 작성 방식 선호		JavaScript 중심 개발 선호
+
+
+# 10 프로젝트 생성 및 라이브러리 설치
+yarn create react-app todo-app
+cd todo-app
+yarn add sass classnames react-icons
+
+4 TodoTemplate [
+	3 TodoInsert [
+		2 TodoList [
+			1 TodoListItem []
+		]
+	]
+]
+
+- 배열 불변성 유지		
+작업	사용 메서드	예시
+추가	concat		todos.concat(newTodo)
+삭제	filter		todos.filter(todo => todo.id !== id)
+수정	map		todos.map(todo => ...)
+
+
+# 11 리액트 컴포넌트 성능 최적화
+크롬 확장자 도구 : React DevTools Profiler
+
+-방법 1: React.memo
+기본 사용법 (이전 props와 현재 props를 비교)
+: export default React.memo(TodoListItem);
+
+-방법 2: 함수 재생성 방지
+-> 함수형 업데이트, useReducer
+
+- 방법 3: react-virtualized
+: 화면에 보이는 컴포넌트만 렌더링하고 
+	스크롤 시 해당 위치의 컴포넌트를 동적 렌더링
+- 설치 -
+yarn add react-virtualized
+
+
+# 12 immer 불변성 유지하기
+-> 기존 방식의 문제점
+: 객체 깊이가 깊어질수록 코드가 복잡해짐, 가독성 저하, 실수 가능성 증가
+
+-설치
+yarn add immer
+const nextState = produce(originalState, draft => {
+  		originalState : 수정하고 싶은 상태
+			draft : 상태를 어떻게 업데이트할지 정의
+  draft.somewhere.deep.inside = 5;
+});
+
+==>
+작업		immer 미사용	 immer 사용
+객체 수정		{...obj, key: value}	 draft.key = value
+중첩 객체		여러 번 전개 연산자	 draft.a.b.c = value
+배열 추가		array.concat(item)	 draft.push(item)
+배열 삭제		array.filter()	 draft.splice(index, 1)
+코드 라인		10줄 이상		 2-3줄
