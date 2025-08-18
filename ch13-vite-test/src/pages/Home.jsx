@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import Profile from './Profile.jsx';
 
 const Home = () => {
   return (
@@ -17,6 +18,10 @@ const Home = () => {
         <li>
           <Link to ="/articles">게시글 목록</Link>
         </li>
+        <li>
+          <Link to ="/myPage">마이페이지</Link>
+        </li>
+
       </ul>
 
     </div>

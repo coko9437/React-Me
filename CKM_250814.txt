@@ -205,3 +205,127 @@ this.setState(
     console.log(this.state);
   }
 );
+
+# 4 리액트 이벤트핸들러
+- 임의 메서드 만들기
+ㅡ기본 방식ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+constructor에서 메서드를 바인딩합니다.
+
+constructor(props) {
+  super(props);
+  this.handleChange = this.handleChange.bind(this);
+  this.handleClick = this.handleClick.bind(this);
+}
+
+handleChange(e) {
+  this.setState({ message: e.target.value });
+}
+
+handleClick() {
+  alert(this.state.message);
+  this.setState({ message: '' });
+}
+
+ㅡ화살표 함수 방식ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+Property Initializer Syntax를 사용한 메서드 작성
+
+handleChange = (e) => {
+  this.setState({ message: e.target.value });
+};
+
+handleClick = () => {
+  alert(this.state.message);
+  this.setState({ message: '' });
+};
+
+=> 결론 : 화살표 함수를 사용하면 바인딩 작업 없이
+    메서드를 정의할 수 있어 더 간결한 코드를 작성할 수 있음.
+
+# 6 key ( 언제나 유일, 데이터가 가진 고유값 설정)
+: 컴포넌트 배열 렌더링 시 어떤 원소에 변동이 있었는지 알아내기 위해 사용
+    어떤 변화가 일어났는지 더욱 빠르게 알아낼 수 있음.
+
+# 데이터 추가 기능 구현
+- push: 기존 배열 자체를 변경
+
+- concat: 새로운 배열을 생성
+
+- 주의!
+리액트에서 상태를 업데이트할 때는 기존 상태를 그대로 두면서
+새로운 값을 상태로 설정해야 합니다. ( = 불변성 유지 )
+
+# 7 라이프사이클 메서드
+- 마운트
+: DOM이 생성되고 웹 브라우저상에 나타나는 과정
+
+- 언마운트
+: 컴포넌트가 페이지에서 사라지는 과정
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+- 업데이트 (P S 부 강)
+1 'P'rops변경 / 2 'S'tate 변경 / 3 '부'모 컴포넌트 리렌더링
+/ 4 FORCE update호출
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+# 8 Hooks
+- useState - 상태 관리
+: const [state, setState] = useState(초깃값);
+\\\\\
+
+- useEffect - 사이드 이펙트 처리
+: useEffect(() => { // 실행할 작업
+    return () => { // cleanup 함수
+    };
+  }, [의존성 배열]);
+     여기서 [의존성 배열]?
+    생략 ->        매 렌더링마다
+    []  ->        마운트 시 1회만
+    [값1, 값2] ->  해당 값 변경 시
+\\\\\
+
+- useReducer - 복잡한 상태 관리
+: const [state, dispatch] = useReducer(reducer, initialState);
+                dispatch: 액션을 발생시키는 함수
+                            reducer: 상태 업데이트 로직을 담은 함수
+        action: 업데이트 정보를 담은 객체
+\\\\\
+
+- useMemo - 연산 최적화
+: const memoizedValue = useMemo(
+    () => computeExpensiveValue(a, b),
+    [a, b]
+  );
+  특정 값이 바뀔 때만 연산 실행.
+  이전 연산 결과를 재사용
+\\\\\
+
+- useCallback - 함수 최적화
+: const memoizedCallback = useCallback(
+    () => {/* 함수 내용 */
+    }, [의존성 배열]
+  );
+  -> 함수 재사용. 불필요한 리렌더링 방지.
+\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+useMemo vs useCallback
+
+// useMemo: 값을 메모이제이션
+const value = useMemo(() => fn(), [deps]);
+
+// useCallback: 함수 자체를 메모이제이션
+const fn = useCallback(() => {}, [deps]);
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+        *결론*
+단순 상태 관리    ->  useState
+
+복잡한 상태 로직   ->  useReducer
+
+컴포넌트 생명주기   ->  useEffect
+
+비용이 큰 연산 최적화    ->  useMemo
+
+함수 재사용  ->  useCallback
+
+DOM 접근 필요   ->  useRef
+
+로직 재사용커스텀   ->  Hook
