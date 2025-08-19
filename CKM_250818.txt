@@ -13,13 +13,13 @@ yarn add sass
 -설치
 yarn add styled-components
 
-* 비교 *
-기준		일반 CSS	   Sass	    CSS Module	styled-components
-설정 난이도	쉬움	   쉬움	    쉬움		쉬움
-클래스명 	충돌	주의 필요	   주의 필요  자동 방지	자동 방지
-동적 스타일링	어려움	   어려움	    보통		매우 쉬움
-코드 분리		분리됨	   분리됨	    분리됨		통합
-성능		좋음	   좋음	    좋음		런타임 오버헤드
+* 비교 *                     #            #
+기준		     일반 CSS	   Sass	     CSS Module	    styled-components
+설정 난이도	 쉬움	       쉬움	        쉬움		    쉬움
+클래스명 충돌	 주의 필요	   주의 필요    자동 방지	    자동 방지
+동적 스타일링	 어려움	       어려움	    보통		    매우 쉬움
+코드 분리		 분리됨	       분리됨	    분리됨		통합
+성능		     좋음	       좋음	        좋음		    런타임 오버헤드
 
 ==>
 -SCss를 선택해야 할 때-		-CSS Module을 선택해야 할 때-	-styled-components를 선택해야 할 때-
@@ -27,7 +27,7 @@ yarn add styled-components
 재사용 가능한 스타일 필요		컴포넌트별 스타일 격리 필요		컴포넌트와 스타일 통합 관리
 변수와 믹스인 활용 필요		전통적인 CSS 작성 방식 선호		JavaScript 중심 개발 선호
 
-
+========================================================
 # 10 프로젝트 생성 및 라이브러리 설치
 yarn create react-app todo-app
 cd todo-app
@@ -47,7 +47,7 @@ yarn add sass classnames react-icons
 삭제	filter		todos.filter(todo => todo.id !== id)
 수정	map		todos.map(todo => ...)
 
-
+========================================================
 # 11 리액트 컴포넌트 성능 최적화
 크롬 확장자 도구 : React DevTools Profiler
 
@@ -64,13 +64,14 @@ yarn add sass classnames react-icons
 - 설치 -
 yarn add react-virtualized
 
-
+========================================================
 # 12 immer 불변성 유지하기
 -> 기존 방식의 문제점
 : 객체 깊이가 깊어질수록 코드가 복잡해짐, 가독성 저하, 실수 가능성 증가
 
 -설치
 yarn add immer
+
 const nextState = produce(originalState, draft => {
   		originalState : 수정하고 싶은 상태
 			draft : 상태를 어떻게 업데이트할지 정의
@@ -84,3 +85,63 @@ const nextState = produce(originalState, draft => {
 배열 추가		array.concat(item)	 draft.push(item)
 배열 삭제		array.filter()	 draft.splice(index, 1)
 코드 라인		10줄 이상		 2-3줄
+========================================================
+
+# 13 라우팅과 SPA 개념
+- 라우팅이란?
+: 사용자가 요청한 URL에 따라 알맞은 페이지를 보여주는 것
+
+- 설치
+ yarn add react-router-dom
+
+- 기본 라우팅 구현
+->  Route 컴포넌트 사용		                            Link 컴포넌트로 페이지 이동
+  import { Route, Routes } from 'react-router-dom';		import { Link } from 'react-router-dom';
+  const App = () => {		                            const Home = () => {
+    return (		                                    return (
+        } />                                                 홈
+       	} />	                                        소개 페이지로
+    );    		                                        ); };
+  }
+
+- NavLink - 활성 링크 스타일링
+const Navigation = () => {
+  const activeStyle = {
+    color: 'green',
+    fontWeight: 'bold'
+  };
+  return (
+          isActive ? activeStyle : undefined}>
+        홈
+  );
+};
+
+* 주요 HOOK 정리 *
+Hook	            용도	                   반환값
+useParams	        URL 파라미터 조회	       파라미터 객체
+useSearchParams	    쿼리스트링 조회/수정	   [searchParams, setSearchParams]
+useNavigate	        페이지 이동	           navigate함수
+useLocation	        현재 위치 정보	           location객체
+
+****     핵심 정리  ****
+  기본 개념		            핵심 컴포넌트		                Best Practices
+  SPA: 한 번 로드 후          Routes - 라우트 그룹 컨테이너		URL 설계: RESTful하게 (리소스 중심)
+  JavaScript로 화면 전환      Route - 경로와 컴포넌트 매핑        중첩 라우트: 공통 레이아웃 활용
+                            Link - SPA 방식 링크              404 처리: 와일드카드(*) 활용
+  React Router: 클라이언트 	Outlet - 중첩 라우트 렌더링 위치	인증 처리: Navigate 컴포넌트로 리다이렉트
+  사이드 라우팅 구현
+========================================================
+# 14 React로 뉴스 뷰어 만들기
+- 설치
+yarn add axios styled-components react-router-dom
+
+- API 연동 구현
+    -> axios 설치
+yarn add axios
+
+비동기 처리 패턴		        컴포넌트 설계		            상태 관리
+콜백 → Promise               단일 책임 원칙에 따른           로딩, 데이터, 에러 상태의 체계적 관리
+ → async/await 		        컴포넌트 분리
+ 진화 과정
+    라우터 활용		                  커스텀 Hook
+    URL을 통한 애플리케이션 상태 관리		  재사용 가능한 로직의 추상화
