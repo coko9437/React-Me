@@ -38,20 +38,10 @@ const ParkingItemBlock = styled.div`
 `;
 
 const B_Parking = ({ article }) => {
-  // API 응답 데이터에서 사용할 필드들을 구조 분해 할당합니다.
   const {
-    guNm,      // 관리기관명
-    pkNam,     // 주차장명
-    jibunAddr, // 소재지지번주소
-    doroAddr,  // 소재지도로명주소
-    tponNum,   // 전화번호
-    pkFm,      // 주차장유형
-    fnlDt,     // 데이터기준일
-    pkGubun,   // 주차장구분
-    payMtd,    // 결제방법
-    currava,   // 실시간주차면수
+    guNm, pkNam, jibunAddr, doroAddr, tponNum,
+      pkFm, fnlDt, pkGubun, payMtd, currava,
   } = article;
-
 
   const formatInfo = (text) => {
     if (!text || text.trim() === '-') {
@@ -59,8 +49,6 @@ const B_Parking = ({ article }) => {
     }
     return text;
   };
-
-
   return (
     <ParkingItemBlock>
       <h2>주차장 이름 : {pkNam}</h2>

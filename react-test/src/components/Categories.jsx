@@ -36,7 +36,7 @@ const categories = [
         name: 'general',
         text: '일반',
     },
-  // 공공데이터 추가작업
+  // 공공데이터 2개 추가함.
   {
     name: 'busanParking',
     text: '부산주차장',
@@ -88,7 +88,7 @@ const Category = styled(NavLink)`
 `;
 
 const Categories = () => {
-  // JSX 부분은 기존 로직을 그대로 유지합니다.
+
   return (
     <CategoriesBlock>
       {categories.map((c) => (

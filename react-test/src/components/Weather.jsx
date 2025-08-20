@@ -13,7 +13,7 @@ const WeatherBlock = styled.div`
 `;
 
 const Weather = () => {
-  // 날씨 데이터, 로딩, 에러 상태를 관리합니다.
+
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error] = useState(null);

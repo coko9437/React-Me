@@ -18,6 +18,7 @@ const NewsListBlock = styled.div`
   }
 `;
 
+// NewsPage로부터 현재 category를 전달받아, 그에 맞는 API를 호출하여 데이터를 가져오는 핵심적인 역할
 const NewsList = ({ category }) => {
 
   const sendData = () => {

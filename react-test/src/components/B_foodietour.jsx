@@ -52,7 +52,6 @@ const B_foodietour = ({ article }) => {
 
   const { MAIN_TITLE, SUBTITLE, ITEMCNTNTS, MAIN_IMG_THUMB, PLACE } = article;
 
-
   const imageUrl = MAIN_IMG_THUMB
     ? `https://www.visitbusan.net${MAIN_IMG_THUMB}`
     : 'https://via.placeholder.com/200x160'; //이미지 없으면 Default이미지

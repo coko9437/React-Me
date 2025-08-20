@@ -1,0 +1,119 @@
+### 전체적인 구조와 흐름
+이 애플리케이션은 다음과 같은 흐름으로 동작합니다.
+
+App.js: 사용자가 처음 접속하면 App 컴포넌트가 렌더링됩니다. 여기서는 react-router-dom을 사용해 URL 경로에 따라 어떤 페이지를 보여줄지 결정합니다.
+ 모든 경로는 NewsPage 컴포넌트를 보여주도록 설정되어 있습니다.
+/:category 경로는 사용자가 특정 카테고리를 선택했음을 의미합니다.
+
+NewsPage.jsx: 이 컴포넌트는 페이지의 레이아웃을 담당합니다. URL로부터 현재 선택된 카테고리(params.category)가 무엇인지 파악하고,
+ Categories 컴포넌트(메뉴)와 NewsList 컴포넌트(기사 목록)를 화면에 보여줍니다.
+
+Categories.jsx: 화면 상단에 '전체보기', '비즈니스', '부산주차장' 등 여러 카테고리 링크를 보여줍니다. 각 링크는 NavLink로 만들어져 있어,
+ 사용자가 클릭하면 해당 카테고리의 URL로 이동합니다. 또한, 독립적으로 날씨 정보를 보여주는 Weather 컴포넌트도 포함하고 있습니다.
+
+NewsList.jsx: NewsPage로부터 현재 category를 전달받아, 그에 맞는 API를 호출하여 데이터를 가져오는 핵심적인 역할을 합니다.
+카테고리가 'busanParking'이면 부산 주차장 API를, 'busanFoodietour'이면 부산 푸디투어 API를, 그 외에는 News API를 호출합니다.
+API 호출은 usePromise라는 커스텀 훅을 통해 이루어지며, 로딩 중/성공/실패 상태를 관리합니다.
+
+데이터 표시 컴포넌트: NewsList는 API로부터 받아온 데이터를 각 항목에 맞는 컴포넌트(NewsItem, B_Parking, B_foodietour)를 사용해
+ 화면에 목록 형태로 예쁘게 그려줍니다.
+------------------------------------------------
+🧩 각 컴포넌트 상세 설명
+1. App.js (애플리케이션 진입점)
+역할: 라우팅(Routing) 설정을 담당합니다.
+핵심 코드:
+
+<Routes>
+  <Route path="/" element={<NewsPage />} />
+  <Route path="/:category" element={<NewsPage />} />
+</Routes>
+react-router-dom의 Routes와 Route를 사용합니다.
+path="/"는 기본 경로(예: localhost:3000)를 의미하며, NewsPage를 보여줍니다.
+path="/:category"는 동적 경로(예: localhost:3000/business)를 의미하며, 여기서 :category 부분은 URL에 따라 바뀌는 값입니다.
+이 경우에도 NewsPage를 보여줍니다.
+주석 처리된 코드는 라우팅을 적용하기 전에 App.js에서 직접 카테고리 상태를 관리했던 흔적으로 보입니다.
+현재는 라우팅으로 기능이 이전되어 더 깔끔한 구조가 되었습니다.
+
+2. NewsPage.jsx (메인 페이지)
+역할: Categories와 NewsList 컴포넌트를 조합하여 실제 뉴스 페이지를 구성합니다.
+핵심 코드:
+
+const params = useParams();
+const category = params.category || 'all';
+useParams 훅을 사용해 URL의 동적 경로 값(예: business)을 params.category로 가져옵니다.
+만약 URL에 카테고리 값이 없으면(localhost:3000처럼) 기본값으로 'all'을 사용합니다.
+이렇게 얻은 category 값을 NewsList 컴포넌트에 props로 전달합니다.
+
+3. Categories.jsx (카테고리 메뉴)
+역할: 사용자가 선택할 수 있는 뉴스 카테고리 목록을 UI로 제공하고, 날씨 정보를 보여줍니다.
+핵심 코드:
+
+<Category
+  key={c.name}
+  className={({ isActive }) => (isActive ? 'active' : undefined)}
+  to={c.name === 'all' ? '/' : `/${c.name}`}
+>
+  {c.text}
+</Category>
+categories 배열을 map 함수로 순회하며 각 카테고리 링크를 만듭니다.
+NavLink를 사용하면 현재 활성화된 링크에 active 클래스를 자동으로 추가할 수 있어, 선택된 카테고리를 시각적으로 강조하는 데 유용합니다.
+Weather 컴포넌트를 렌더링하여 날씨 정보를 표시합니다.
+
+4. NewsList.jsx (데이터 호출 및 목록 표시)
+역할: 선택된 카테고리에 따라 다른 API 서버에 데이터를 요청하고, 응답 결과에 따라 적절한 UI(로딩, 에러, 목록)를 보여줍니다.
+핵심 코드:
+API 분기 처리:
+
+JavaScript
+if (category === 'busanParking') {
+  return axios.get(...);
+} else if (category === 'busanFoodietour') {
+  return axios.get(...);
+} else {
+  return axios.get(...);
+}
+category 값에 따라 각기 다른 API URL로 요청을 보내는 로직이 명확하게 구분되어 있습니다.
+
+데이터 호출:
+
+JavaScript
+const [loading, response, error] = usePromise(sendData, [category]);
+usePromise 커스텀 훅을 사용하여 비동기 데이터 요청의 상태(로딩, 결과, 에러)를 관리합니다.
+[category] 의존성 배열 덕분에 category가 바뀔 때마다 API 요청을 다시 보냅니다.
+데이터 가공:
+
+JavaScript
+const data = category === 'busanParking' ? response?.data?.response?.body?.items?.item : ...
+API마다 응답 데이터의 구조가 다르기 때문에, category에 따라 실제 기사/항목 데이터가 있는 위치에 접근하여 data 변수에 할당합니다.
+조건부 렌더링:
+
+Jsx
+{category === 'busanParking' ? (
+  data.map((item) => <B_Parking ... />)
+) : category === 'busanFoodietour' ? (
+  data.map((item) => <B_foodietour ... />)
+) : (
+  data.map((article) => <NewsItem ... />)
+)}
+마찬가지로 category에 따라 B_Parking, B_foodietour, NewsItem 중 적절한 컴포넌트를 선택하여 목록을 렌더링합니다.
+
+5. usePromise.jsx (커스텀 훅)
+역할: 비동기 작업(주로 API 호출)을 처리하는 로직을 재사용 가능하도록 분리한 커스텀 훅입니다.
+핵심 코드: useEffect 안에서 async/await를 사용하여 Promise를 처리하고, 로딩 상태를 true/false로 변경하며,
+ 결과나 에러를 useState로 관리합니다. 이 훅 덕분에 NewsList 컴포넌트의 코드가 훨씬 간결해졌습니다.
+
+6. NewsItem.jsx, B_Parking.jsx, B_foodietour.jsx (개별 항목 컴포넌트)
+역할: 각각의 데이터(뉴스 기사, 주차장 정보, 푸디투어 정보) 한 개를 어떻게 보여줄지 정의하는 순수한 UI 컴포넌트입니다.
+ props로 데이터를 받아 styled-components로 정의된 스타일에 맞춰 화면에 표시합니다.
+
+7. Weather.jsx (날씨 정보 컴포넌트)
+역할: Categories 컴포넌트 내에서 독립적으로 날씨 정보를 가져와 표시합니다.
+핵심 코드: useEffect 훅을 사용하여 컴포넌트가 처음 마운트될 때 OpenWeatherMap API를 호출하고, useState로 날씨 데이터를 관리합니다.
+
+🌟 정리
+이 프로젝트는 컴포넌트 기반 아키텍처를 잘 활용하고 있습니다. 각 컴포넌트는 UI와 로직을 기준으로 명확하게 역할을 분리하고 있습니다.
+라우팅 (react-router-dom)을 통해 페이지 이동과 상태 관리를 URL 기반으로 처리하여 깔끔한 구조를 만들었습니다.
+커스텀 훅 (usePromise)을 만들어 비동기 로직을 분리함으로써 코드의 재사용성과 가독성을 높였습니다.
+조건부 렌더링을 활용하여 하나의 NewsList 컴포넌트가 여러 종류의 데이터를 유연하게 처리할 수 있도록 구현했습니다.
+스타일링 (styled-components)을 통해 각 컴포넌트의 스타일을 해당 파일 내에서 관리하여 유지보수성을 향상시켰습니다.
+전반적으로 리액트의 주요 개념들을 잘 적용하여 효율적으로 구조화된 훌륭한 코드입니다

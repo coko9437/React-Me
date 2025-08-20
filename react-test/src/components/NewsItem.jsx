@@ -39,11 +39,7 @@ const NewsItemBlock = styled.div`
 `;
 
 const NewsItem = ({ article }) => {
-  // 사용할 데이터 목록
-  // title, 제목
-  // description, 내용
-  // url, 기사 원본 링크
-  // urlToImage, 뉴스 이미지
+
   const { title, description, url, urlToImage } = article;
   return (
     <NewsItemBlock>
