@@ -79,12 +79,12 @@ const nextState = produce(originalState, draft => {
 });
 
 ==>
-작업		immer 미사용	 immer 사용
+작업		        immer 미사용	        immer 사용
 객체 수정		{...obj, key: value}	 draft.key = value
-중첩 객체		여러 번 전개 연산자	 draft.a.b.c = value
-배열 추가		array.concat(item)	 draft.push(item)
-배열 삭제		array.filter()	 draft.splice(index, 1)
-코드 라인		10줄 이상		 2-3줄
+중첩 객체		여러 번 전개 연산자	         draft.a.b.c = value
+배열 추가		array.concat(item)	     draft.push(item)
+배열 삭제		array.filter()	         draft.splice(index, 1)
+코드 라인		10줄 이상		         2-3줄
 ========================================================
 
 # 13 라우팅과 SPA 개념
@@ -92,7 +92,7 @@ const nextState = produce(originalState, draft => {
 : 사용자가 요청한 URL에 따라 알맞은 페이지를 보여주는 것
 
 - 설치
- yarn add react-router-dom
+yarn add react-router-dom
 
 - 기본 라우팅 구현
 ->  Route 컴포넌트 사용		                            Link 컴포넌트로 페이지 이동

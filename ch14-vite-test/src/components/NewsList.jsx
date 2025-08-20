@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import NewsItem from './NewsItem';
 import usePromise from '../lib/usePromise.jsx';
+import PdItemBusan from './PdItemBusan.jsx';
 
 //css작업
 const NewsListBlock = styled.div`
@@ -29,11 +30,11 @@ const NewsList = ({ category }) => {
     console.log(`category 1 : ${category}`);
     if (category === 'busanAtt') {
       return axios.get(
-        `https://apis.data.go.kr/6260000/AttractionService/getAttractionKr?serviceKey=ALRX9GpugtvHxcIO%2FiPg1vXIQKi0E6Kk1ns4imt8BLTgdvSlH%2FAKv%2BA1GcGUQgzuzqM3Uv1ZGgpG5erOTDcYRQ%3D%3D&numOfRows=100&pageNo=1&resultType=json`,
+        `https://apis.data.go.kr/6260000/AttractionService/getAttractionKr?serviceKey=aEdzI1bgEcVpFBjiZjzeOwrHszga7WIoSDv4dHHXlkCUksB2IV70lTM2NHTa2tYt0htOEyhxFSaM2%2FNpBih1aQ%3D%3&numOfRows=10&pageNo=1&resultType=json`,
       );
     } else {
       return axios.get(
-        `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=b7adb4f936494b3bac62f446ab7686cb`,
+        `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=079333a4a3584e238479044411e056f0`,
       );
     }
   };
